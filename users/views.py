@@ -6,7 +6,7 @@ from .models import Users, RandomUser
 
 class UsersView(View):
     def get(self, request, *args, **kwargs):
-        api_url = 'https://randomuser.me/api/?results=10&inc=gender,name,email,location,login,uuid'
+        api_url = 'https://randomuser.me/api/?results=10&inc=gender,name,email,login'
 
         # Obtener la lista de UUIDs almacenados en la sesión
         stored_uuids = request.session.get('stored_uuids', [])
@@ -16,18 +16,15 @@ class UsersView(View):
 
         response = requests.get(api_url)
 
-        
         if response.status_code == 200:
             user_data = response.json()['results']
 
             # Filtrar usuarios que ya han sido mostrados
             unique_users = [user for user in user_data if user['login']['uuid'] not in stored_uuids]
-
-            # Ocultar o modificar la contraseña antes de enviar la respuesta JSON
+            
             for user in unique_users:
-                if 'login' in user:
-                    del user['login']['password']
-
+                hide_fields(user['login'], ['password', 'username', 'md5', 'salt', 'sha1', 'sha256'])
+            
             # Agregar nuevos UUIDs a la lista
             stored_uuids.extend(user['login']['uuid'] for user in unique_users)
 
@@ -46,7 +43,12 @@ class UsersView(View):
             else:
                 # Devolver los datos únicos como JSON si no hay categorización por género
                 return JsonResponse({'results': unique_users[:limit]})
+            
         else:
             return JsonResponse({'error': 'Error al obtener usuarios aleatorios'}, status=500)
 
 
+def hide_fields(obj, fields_to_hide):
+    """Oculta los campos especificados en un objeto."""
+    for field in fields_to_hide:
+        obj.pop(field, None)
