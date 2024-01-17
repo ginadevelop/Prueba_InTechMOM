@@ -22,6 +22,7 @@ class UsersView(View):
             # Filtrar usuarios que ya han sido mostrados
             unique_users = [user for user in user_data if user['login']['uuid'] not in stored_uuids]
             
+            #Oculta los campos especificados en un objeto
             for user in unique_users:
                 hide_fields(user['login'], ['password', 'username', 'md5', 'salt', 'sha1', 'sha256'])
             
