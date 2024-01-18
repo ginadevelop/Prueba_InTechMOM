@@ -13,7 +13,7 @@
 <p> Para llevar a cabo el proyecto en un repositorio local mediante la terminal con PowerShell, sigue las indicaciones que se detallan a continuación:</p>
 
 - Crear un repositorio en GitHub
-- Clonar el repositorio en VSC en la carpeta a selección
+- Clonar el repositorio en VSC dentro de la carpeta que hayas seleccionado
 ```code
 git clone https://github.com/ginadevelop/Prueba_InTechMOM.git
 ```
