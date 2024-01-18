@@ -1,8 +1,6 @@
-import json
 import requests
 from django.http import JsonResponse
 from django.views import View
-from .models import Users, RandomUser
 
 class UsersView(View):
     def get(self, request, *args, **kwargs):
@@ -21,20 +19,22 @@ class UsersView(View):
 
             # Filtrar usuarios que ya han sido mostrados
             unique_users = [user for user in user_data if user['login']['uuid'] not in stored_uuids]
-            
-            for user in unique_users:
-                hide_fields(user['login'], ['password', 'username', 'md5', 'salt', 'sha1', 'sha256'])
-            
+                      
             # Agregar nuevos UUIDs a la lista
             stored_uuids.extend(user['login']['uuid'] for user in unique_users)
 
             # Actualizar la lista de UUIDs almacenados en la sesión
             request.session['stored_uuids'] = stored_uuids
 
+            #Oculta los campos especificados en un objeto
+            for user in unique_users:
+                hide_fields(user['login'], ['password', 'username', 'md5', 'salt', 'sha1', 'sha256', 'uuid'])            
+
             # Obtener el parámetro 'categorize' de la URL
             categorize = request.GET.get('categorize', None)
 
             if categorize == 'gender':
+                
                 # Organizar por género si el parámetro 'categorize' es 'gender'
                 female = [user for user in unique_users if user['gender'] == 'female']
                 male = [user for user in unique_users if user['gender'] == 'male']
@@ -45,7 +45,7 @@ class UsersView(View):
                 return JsonResponse({'results': unique_users[:limit]})
             
         else:
-            return JsonResponse({'error': 'Error al obtener usuarios aleatorios'}, status=500)
+            return JsonResponse({'error': 'Error al obtener usuarios'}, status=500)
 
 
 def hide_fields(obj, fields_to_hide):
