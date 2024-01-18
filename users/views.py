@@ -34,6 +34,7 @@ class UsersView(View):
             categorize = request.GET.get('categorize', None)
 
             if categorize == 'gender':
+                
                 # Organizar por género si el parámetro 'categorize' es 'gender'
                 female = [user for user in unique_users if user['gender'] == 'female']
                 male = [user for user in unique_users if user['gender'] == 'male']
