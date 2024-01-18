@@ -1,4 +1,5 @@
 # Prueba_InTechMOM
+
 ## API/GET
 <p>Api/GET facilita la gestión de obtener objetos específicos de un listado de una lista de usuarios en formato JSON a través de la API https://randomuser.me/documentation. Se emplea el método GET en el endpoint users para llevar a cabo esta actividad. Esta API devuelve un conjunto predeterminado de 10 usuarios en formato JSON, aunque este valor puede ajustarse con el parámetro opcional (/users?limit=5). Además, ofrece la posibilidad de filtrar y reorganizar el JSON según el género de los usuarios (categorize=gender). Es importante destacar que la API oculta información sensible y garantiza que no se repitan los usuarios..</p>
 
@@ -110,15 +111,21 @@ python manage.py migrate
 ```code
 python manage.py runserver
 ```
+- Finalmente realizar pull request con la rama “main”. 
+
 ### RUTAS API
 
 - Al acceder a http://127.0.0.1:8000/users/, se visualizan por defecto 10
 
+[![10_usuarios](https://github.com/ginadevelop/Prueba_InTechMOM/blob/develop/images/Captura1.JPG)]
 
 - Al acceder a http://127.0.0.1:8000/users/?limit=1, se restringe la respuesta JSON a un único usuario
 
+[![1_usuario](https://github.com/ginadevelop/Prueba_InTechMOM/blob/develop/images/Captura2.JPG)]
 
 - Mediante http://127.0.0.1:8000/users/?categorize=gender se aplica un filtro para organizar el JSON por género.
+
+[![genero](https://github.com/ginadevelop/Prueba_InTechMOM/blob/develop/images/Captura3.JPG)]
 
 
 
